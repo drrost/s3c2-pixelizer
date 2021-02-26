@@ -56,3 +56,10 @@ Reader reader = new BufferedReader(new FileReader("E:\\sampleScript.sql"));
 //Running the script
 sr.runScript(reader);
 ```
+
+## Pixilization
+
+* [Wiki](https://en.wikipedia.org/wiki/Pixelization) article.
+* [Stackoverflow](
+  https://stackoverflow.com/questions/15777821/how-can-i-pixelate-a-jpg-with-java
+  ) algorithm example.
