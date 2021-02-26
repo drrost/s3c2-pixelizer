@@ -32,20 +32,26 @@ Never understood that need to be done in this section.
 #### What is an app server?
 
 Well, it's pretty straightforward - it's a server that hosts applications.
-Tomcat is not an app server, it's a web container, or in other terms 
+Tomcat is not an app server, it's a web container, or in other terms
 
-####  
+####   
 
 ?? To Spring or not to Spring? What is the question.
+
+* Looks like an
+  appropriate [example](https://spring.io/guides/gs/uploading-files/
+  ).
 
 ## How to run an SQL script on MySQL
 
 https://www.tutorialspoint.com/how-to-run-sql-script-using-jdbc
+
 ```xml
+
 <dependency>
-   <groupId>org.mybatis</groupId>
-   <artifactId>mybatis</artifactId>
-   <version>3.4.5</version>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.4.5</version>
 </dependency>
 ```
 
