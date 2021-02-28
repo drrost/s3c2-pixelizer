@@ -13,7 +13,44 @@
 * Add MySQL to start on login - `brew services start mysql`
 * Run MySQL - `mysql -uroot`
 
-## MySQL
+## Add MySQL to project
+
+To `build.gradle` add:
+
+```gradle
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'mysql:mysql-connector-java'
+    ...
+```
+
+or to `pom.xml`
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-jdbc</artifactId>
+</dependency>
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <scope>runtime</scope>
+</dependency>
+```
+
+To `application.properties` add:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/db
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database-platform = org.hibernate.dialect.MySQL5Dialect
+spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto = update
+```
+
+## Operating MySQL data bases
 
 * Show existed databases - `SHOW DATABASES;`
 * Create a database - `CREATE DATABASE db_name;`
@@ -69,3 +106,12 @@ sr.runScript(reader);
 * [Stackoverflow](
   https://stackoverflow.com/questions/15777821/how-can-i-pixelate-a-jpg-with-java
   ) algorithm example.
+  
+## Spring
+
+* Install Spring CLI
+
+```shell
+brew tap spring-io/tap
+brew install spring-boot
+```

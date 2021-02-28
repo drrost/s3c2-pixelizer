@@ -21,7 +21,7 @@ public class PixelizatorApplication {
     CommandLineRunner init(StorageService storageService) {
         return (args) -> {
             new DBHelper().createDbIfNotExists();
-            storageService.deleteAll();
+//            storageService.deleteAll();
             storageService.init();
         };
     }

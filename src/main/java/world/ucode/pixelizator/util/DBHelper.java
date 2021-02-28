@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 public class DBHelper {
 
-    public static final String DB_NAME = "songs";
+    public static final String DB_NAME = "pixelizator";
 
     public void createDbIfNotExists() {
         if (!dbExists())

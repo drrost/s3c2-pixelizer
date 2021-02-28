@@ -1,20 +1,13 @@
 DROP DATABASE IF EXISTS songs;
-CREATE DATABASE songs;
 
-USE songs;
+DROP DATABASE IF EXISTS pixelizator;
+CREATE DATABASE pixelizator;
 
-CREATE TABLE artist
+USE pixelizator;
+
+CREATE TABLE file
 (
-    artist_id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    name      TEXT
-);
-
-CREATE TABLE song
-(
-    song_id   INTEGER AUTO_INCREMENT PRIMARY KEY,
-    title     TEXT,
-    year      INTEGER,
-    album     TEXT,
-    artist_id INTEGER,
-    FOREIGN KEY (artist_id) REFERENCES artist (artist_id)
+    file_id BINARY(16) PRIMARY KEY,
+    name    TEXT,
+    size    INTEGER
 );
