@@ -115,3 +115,7 @@ sr.runScript(reader);
 brew tap spring-io/tap
 brew install spring-boot
 ```
+
+### Startup logic run
+
+* https://www.baeldung.com/running-setup-logic-on-startup-in-spring

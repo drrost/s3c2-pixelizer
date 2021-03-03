@@ -17,12 +17,12 @@ import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 @Service
-public class FileSystemStorageService implements StorageService {
+public class FileStoreFileSystem implements FileStore {
 
     private final Path rootLocation;
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties) {
+    public FileStoreFileSystem(FileStoreProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
@@ -31,7 +31,7 @@ public class FileSystemStorageService implements StorageService {
         try {
             Files.createDirectories(rootLocation);
         } catch (IOException e) {
-            throw new StorageException("Could not initialize storage", e);
+            throw new FileStoreException("Could not initialize storage", e);
         }
     }
 
@@ -39,14 +39,14 @@ public class FileSystemStorageService implements StorageService {
     public void store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file.");
+                throw new FileStoreException("Failed to store empty file.");
             }
             Path destinationFile = this.rootLocation.resolve(
                 Paths.get(file.getOriginalFilename()))
                 .normalize().toAbsolutePath();
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
-                throw new StorageException(
+                throw new FileStoreException(
                     "Cannot store file outside current directory.");
             }
             try (InputStream inputStream = file.getInputStream()) {
@@ -54,7 +54,7 @@ public class FileSystemStorageService implements StorageService {
                     StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
-            throw new StorageException("Failed to store file.", e);
+            throw new FileStoreException("Failed to store file.", e);
         }
     }
 
@@ -65,7 +65,7 @@ public class FileSystemStorageService implements StorageService {
                 .filter(path -> !path.equals(this.rootLocation))
                 .map(this.rootLocation::relativize);
         } catch (IOException e) {
-            throw new StorageException("Failed to read stored files", e);
+            throw new FileStoreException("Failed to read stored files", e);
         }
     }
 
@@ -82,12 +82,12 @@ public class FileSystemStorageService implements StorageService {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new StorageFileNotFoundException(
+                throw new FileStoreFileNotFoundException(
                     "Could not read file: " + filename);
 
             }
         } catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+            throw new FileStoreFileNotFoundException("Could not read file: " + filename, e);
         }
     }
 

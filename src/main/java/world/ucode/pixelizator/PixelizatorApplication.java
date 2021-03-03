@@ -6,12 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import world.ucode.pixelizator.services.FileService;
-import world.ucode.pixelizator.storage.StorageProperties;
-import world.ucode.pixelizator.storage.StorageService;
-import world.ucode.pixelizator.util.DBHelper;
+import world.ucode.pixelizator.storage.FileStoreProperties;
+import world.ucode.pixelizator.storage.FileStore;
 
 @SpringBootApplication
-@EnableConfigurationProperties(StorageProperties.class)
+@EnableConfigurationProperties(FileStoreProperties.class)
 public class PixelizatorApplication {
 
     public static void main(String[] args) {
@@ -22,7 +21,7 @@ public class PixelizatorApplication {
     // section 2.6
     //
     @Bean
-    CommandLineRunner init(StorageService storageService, FileService fileService) {
+    CommandLineRunner init(FileStore fileStore, FileService fileService) {
         return (args) -> {
             fileService.init();
         };
