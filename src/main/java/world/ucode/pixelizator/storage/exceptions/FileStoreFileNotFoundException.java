@@ -1,4 +1,4 @@
-package world.ucode.pixelizator.storage;
+package world.ucode.pixelizator.storage.exceptions;
 
 public class FileStoreFileNotFoundException extends FileStoreException {
 

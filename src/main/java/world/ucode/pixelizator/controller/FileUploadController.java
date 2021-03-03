@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import world.ucode.pixelizator.services.FileService;
-import world.ucode.pixelizator.storage.FileStoreFileNotFoundException;
+import world.ucode.pixelizator.storage.exceptions.FileStoreFileNotFoundException;
 import world.ucode.pixelizator.storage.FileStore;
 
 import java.io.IOException;
