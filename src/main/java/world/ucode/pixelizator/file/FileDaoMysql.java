@@ -1,5 +1,6 @@
 package world.ucode.pixelizator.file;
 
+import org.springframework.stereotype.Service;
 import world.ucode.pixelizator.file.error.FileDaoException;
 import world.ucode.pixelizator.file.error.NotFoundException;
 import world.ucode.pixelizator.model.File;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class FileDaoMysql implements FileDao {
 
     @Override

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import world.ucode.pixelizator.services.FileService;
 import world.ucode.pixelizator.storage.StorageFileNotFoundException;
 import world.ucode.pixelizator.storage.StorageService;
 
@@ -20,10 +21,12 @@ import java.util.stream.Collectors;
 public class FileUploadController {
 
     private final StorageService storageService;
+    private final FileService fileService;
 
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileUploadController(StorageService storageService, FileService fileService) {
         this.storageService = storageService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/")
