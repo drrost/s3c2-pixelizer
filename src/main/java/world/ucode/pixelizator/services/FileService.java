@@ -9,6 +9,8 @@ import world.ucode.pixelizator.model.File;
 import world.ucode.pixelizator.storage.FileStore;
 import world.ucode.pixelizator.util.DBHelper;
 
+import java.util.UUID;
+
 @Service
 public class FileService {
 
@@ -32,7 +34,7 @@ public class FileService {
 
         var fileName = multipartFile.getOriginalFilename();
         var fileSize = multipartFile.getSize();
-        var file = new File(fileName, fileSize);
+        var file = new File(UUID.randomUUID(), fileName, fileSize);
 
         fileDao.createFile(file);
     }

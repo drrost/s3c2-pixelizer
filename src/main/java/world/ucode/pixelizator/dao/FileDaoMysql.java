@@ -23,7 +23,7 @@ public class FileDaoMysql implements FileDao {
             connection = getConnection();
             var sql = "INSERT INTO file (file_id, name, size) VALUES (UUID_TO_BIN(?), ?, ?)";
             var preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, String.valueOf(UUID.randomUUID()));
+            preparedStatement.setString(1, String.valueOf(file.getId()));
             preparedStatement.setString(2, file.getName());
             preparedStatement.setLong(3, file.getSize());
             var rs = preparedStatement.executeUpdate();
@@ -141,8 +141,7 @@ public class FileDaoMysql implements FileDao {
             var uuid = rs.getString("file_id");
             var name = rs.getString("name");
             var size = rs.getLong("size");
-            file = new File(name, size);
-            file.setId(UUID.fromString(uuid));
+            file = new File(UUID.fromString(uuid), name, size);
         } catch (SQLException e) {
             e.printStackTrace();
         }

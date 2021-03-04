@@ -8,7 +8,8 @@ public class File {
     private String name;
     private long size;
 
-    public File(String name, long size) {
+    public File(UUID uuid, String name, long size) {
+        this.id = uuid;
         this.name = name;
         this.size = size;
     }
@@ -17,23 +18,11 @@ public class File {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public long getSize() {
         return size;
-    }
-
-    public void setSize(long size) {
-        this.size = size;
     }
 }
