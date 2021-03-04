@@ -38,7 +38,7 @@ public class FileController {
             (file) -> {
                 var tlFile = new TLFile(file);
                 tlFile.url = MvcUriComponentsBuilder.fromMethodName(FileController.class,
-                    "serveFile", file.getName()).build().toUri().toString();
+                    "serveFile", String.valueOf(file.getId())).build().toUri().toString();
                 return tlFile;
             }).collect(Collectors.toList());
 
@@ -49,11 +49,11 @@ public class FileController {
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws FileDaoException {
 
-        Resource file = fileStore.loadAsResource(filename);
+        var file = fileService.load(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-            "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+            "attachment; filename=\"" + file.getName() + "\"").body(file.getResource());
     }
 
     @PostMapping("/")

@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import world.ucode.pixelizator.dao.FileDao;
 import world.ucode.pixelizator.dao.error.FileDaoException;
 import world.ucode.pixelizator.model.File;
+import world.ucode.pixelizator.services.model.FSFileModel;
 import world.ucode.pixelizator.storage.FileStore;
 import world.ucode.pixelizator.util.DBHelper;
 
@@ -43,5 +44,14 @@ public class FileService {
 
     public List<File> all() throws FileDaoException {
         return fileDao.findAll();
+    }
+
+    public FSFileModel load(String uuid) throws FileDaoException {
+        var file = fileDao.fileById(UUID.fromString(uuid));
+        var resource = fileStore.loadAsResource(uuid);
+
+        var fsFile = new FSFileModel(resource, file.getName());
+
+        return fsFile;
     }
 }

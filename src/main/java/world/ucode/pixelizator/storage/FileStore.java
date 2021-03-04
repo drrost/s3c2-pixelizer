@@ -14,9 +14,9 @@ public interface FileStore {
 
     Stream<Path> loadAll();
 
-    Path load(String filename);
+    Path load(String uuid);
 
-    Resource loadAsResource(String filename);
+    Resource loadAsResource(String uuid);
 
     void deleteAll();
 }

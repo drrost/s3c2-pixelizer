@@ -76,24 +76,24 @@ public class FileStoreImpl implements FileStore {
     }
 
     @Override
-    public Path load(String filename) {
-        return rootLocation.resolve(filename);
+    public Path load(String uuid) {
+        return getPath(uuid);
     }
 
     @Override
-    public Resource loadAsResource(String filename) {
+    public Resource loadAsResource(String uuid) {
         try {
-            Path file = load(filename);
+            Path file = load(uuid);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
                 throw new FileStoreFileNotFoundException(
-                    "Could not read file: " + filename);
+                    "Could not read file: " + uuid);
 
             }
         } catch (MalformedURLException e) {
-            throw new FileStoreFileNotFoundException("Could not read file: " + filename, e);
+            throw new FileStoreFileNotFoundException("Could not read file: " + uuid, e);
         }
     }
 
