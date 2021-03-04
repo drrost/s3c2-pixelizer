@@ -1,4 +1,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
+</head>
 <body>
 
 <div th:if="${message}">
@@ -20,13 +23,20 @@
     </form>
 </div>
 
-<div>
-    <ul>
-        <li th:each="file : ${files}">
-            <a th:href="${file}" th:text="${file}"/>
-        </li>
-    </ul>
-</div>
+<table border="1">
+    <tr>
+        <th>UUID</th>
+        <th>Name</th>
+        <th>Size</th>
+    </tr>
+    <tr th:each="file : ${files}">
+        <td th:utext="${file.id}">UUID</td>
+        <td th:href="${file.name}" class="shrinked">
+            <a th:href="${file.url}" th:text="${file.name}"/>
+        </td>
+        <td th:utext="${file.size}">Size</td>
+    </tr>
+</table>
 
 </body>
 </html>

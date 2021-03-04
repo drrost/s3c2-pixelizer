@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import world.ucode.pixelizator.controller.model.TLFile;
 import world.ucode.pixelizator.dao.error.FileDaoException;
 import world.ucode.pixelizator.services.FileService;
 import world.ucode.pixelizator.storage.FileStore;
@@ -33,10 +34,15 @@ public class FileController {
     @GetMapping("/")
     public String listUploadedFiles(Model model) throws IOException, FileDaoException {
 
-        model.addAttribute("files", fileService.all().stream().map(
-            file -> MvcUriComponentsBuilder.fromMethodName(FileController.class,
-                "serveFile", file.getName()).build().toUri().toString())
-            .collect(Collectors.toList()));
+        var files = fileService.all().stream().map(
+            (file) -> {
+                var tlFile = new TLFile(file);
+                tlFile.url = MvcUriComponentsBuilder.fromMethodName(FileController.class,
+                    "serveFile", file.getName()).build().toUri().toString();
+                return tlFile;
+            }).collect(Collectors.toList());
+
+        model.addAttribute("files", files);
 
         return "uploadForm";
     }
