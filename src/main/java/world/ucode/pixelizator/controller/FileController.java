@@ -12,8 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import world.ucode.pixelizator.dao.error.FileDaoException;
 import world.ucode.pixelizator.services.FileService;
-import world.ucode.pixelizator.storage.exceptions.FileStoreFileNotFoundException;
 import world.ucode.pixelizator.storage.FileStore;
+import world.ucode.pixelizator.storage.exceptions.FileStoreFileNotFoundException;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -31,10 +31,11 @@ public class FileController {
     }
 
     @GetMapping("/")
-    public String listUploadedFiles(Model model) throws IOException {
-        model.addAttribute("files", fileStore.loadAll().map(
-            path -> MvcUriComponentsBuilder.fromMethodName(FileController.class,
-                "serveFile", path.getFileName().toString()).build().toUri().toString())
+    public String listUploadedFiles(Model model) throws IOException, FileDaoException {
+
+        model.addAttribute("files", fileService.all().stream().map(
+            file -> MvcUriComponentsBuilder.fromMethodName(FileController.class,
+                "serveFile", file.getName().toString()).build().toUri().toString())
             .collect(Collectors.toList()));
 
         return "uploadForm";

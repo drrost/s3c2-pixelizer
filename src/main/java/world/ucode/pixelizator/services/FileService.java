@@ -9,6 +9,7 @@ import world.ucode.pixelizator.model.File;
 import world.ucode.pixelizator.storage.FileStore;
 import world.ucode.pixelizator.util.DBHelper;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -39,5 +40,9 @@ public class FileService {
         fileDao.createFile(file);
 
         return file;
+    }
+
+    public List<File> all() throws FileDaoException {
+        return fileDao.findAll();
     }
 }
