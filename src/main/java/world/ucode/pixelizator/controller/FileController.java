@@ -19,13 +19,13 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 @Controller
-public class FileUploadController {
+public class FileController {
 
     private final FileStore fileStore;
     private final FileService fileService;
 
     @Autowired
-    public FileUploadController(FileStore fileStore, FileService fileService) {
+    public FileController(FileStore fileStore, FileService fileService) {
         this.fileStore = fileStore;
         this.fileService = fileService;
     }
@@ -34,7 +34,7 @@ public class FileUploadController {
     public String listUploadedFiles(Model model) throws IOException {
 
         model.addAttribute("files", fileStore.loadAll().map(
-            path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+            path -> MvcUriComponentsBuilder.fromMethodName(FileController.class,
                 "serveFile", path.getFileName().toString()).build().toUri().toString())
             .collect(Collectors.toList()));
 

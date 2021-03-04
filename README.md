@@ -6,6 +6,16 @@
 ./mvnw spring-boot:run
 ```
 
+## Software design
+
+### Upload file
+
+![](docs/upload_file.png)
+
+### File DAO
+
+![](docs/file_dao.png)
+
 ## Setup
 
 * Install MySQL - `brew install mysql`
@@ -27,14 +37,15 @@ dependencies {
 or to `pom.xml`
 
 ```xml
+
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-jdbc</artifactId>
 </dependency>
 <dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-    <scope>runtime</scope>
+<groupId>mysql</groupId>
+<artifactId>mysql-connector-java</artifactId>
+<scope>runtime</scope>
 </dependency>
 ```
 
@@ -45,9 +56,9 @@ spring.datasource.url=jdbc:mysql://localhost:3306/db
 spring.datasource.username=root
 spring.datasource.password=
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.jpa.database-platform = org.hibernate.dialect.MySQL5Dialect
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
 spring.jpa.generate-ddl=true
-spring.jpa.hibernate.ddl-auto = update
+spring.jpa.hibernate.ddl-auto=update
 ```
 
 ## Operating MySQL data bases
@@ -71,7 +82,7 @@ Never understood that need to be done in this section.
 Well, it's pretty straightforward - it's a server that hosts applications.
 Tomcat is not an app server, it's a web container, or in other terms
 
-####   
+####     
 
 ?? To Spring or not to Spring? What is the question.
 
@@ -106,7 +117,7 @@ sr.runScript(reader);
 * [Stackoverflow](
   https://stackoverflow.com/questions/15777821/how-can-i-pixelate-a-jpg-with-java
   ) algorithm example.
-  
+
 ## Spring
 
 * Install Spring CLI

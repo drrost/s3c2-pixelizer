@@ -19,12 +19,12 @@ import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 @Service
-public class FileStoreFileSystem implements FileStore {
+public class FileStoreImpl implements FileStore {
 
     private final Path rootLocation;
 
     @Autowired
-    public FileStoreFileSystem(FileStoreProperties properties) {
+    public FileStoreImpl(FileStoreProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
