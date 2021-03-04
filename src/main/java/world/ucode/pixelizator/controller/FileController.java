@@ -35,7 +35,7 @@ public class FileController {
 
         model.addAttribute("files", fileService.all().stream().map(
             file -> MvcUriComponentsBuilder.fromMethodName(FileController.class,
-                "serveFile", file.getName().toString()).build().toUri().toString())
+                "serveFile", file.getName()).build().toUri().toString())
             .collect(Collectors.toList()));
 
         return "uploadForm";
