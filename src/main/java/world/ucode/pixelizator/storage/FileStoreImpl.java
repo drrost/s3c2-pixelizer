@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import world.ucode.pixelizator.storage.exceptions.FileStoreException;
 import world.ucode.pixelizator.storage.exceptions.FileStoreFileNotFoundException;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -25,8 +26,10 @@ public class FileStoreImpl implements FileStore {
 
     @Autowired
     public FileStoreImpl(FileStoreProperties properties) {
-        this.rootLocation = Paths.get(properties.getLocation());
+        rootLocation = Paths.get(properties.getLocation());
     }
+
+    // FileStore
 
     @Override
     public void init() {
@@ -38,15 +41,16 @@ public class FileStoreImpl implements FileStore {
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public void store(MultipartFile file, String uuid) {
         try {
             if (file.isEmpty()) {
                 throw new FileStoreException("Failed to store empty file.");
             }
-            Path destinationFile = this.rootLocation.resolve(
-                Paths.get(file.getOriginalFilename()))
-                .normalize().toAbsolutePath();
-            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+            createFolderIfNeeded(uuid);
+
+            Path destinationFile = getPath(uuid);
+
+            if (!destinationFile.getParent().startsWith(rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new FileStoreException(
                     "Cannot store file outside current directory.");
@@ -63,9 +67,9 @@ public class FileStoreImpl implements FileStore {
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.rootLocation, 1)
-                .filter(path -> !path.equals(this.rootLocation))
-                .map(this.rootLocation::relativize);
+            return Files.walk(rootLocation, 1)
+                .filter(path -> !path.equals(rootLocation))
+                .map(rootLocation::relativize);
         } catch (IOException e) {
             throw new FileStoreException("Failed to read stored files", e);
         }
@@ -96,5 +100,30 @@ public class FileStoreImpl implements FileStore {
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
+
+    // Private
+
+    private Path getPath(String fileId) {
+        Path destinationFolder = getDestinationFolder(fileId);
+        Path destinationFile = destinationFolder.resolve(
+            Paths.get(fileId))
+            .normalize().toAbsolutePath();
+        return destinationFile;
+    }
+
+    private Path getDestinationFolder(String fileId) {
+        var uuidFolder = UuidPathConverter.path(fileId, 3);
+        return rootLocation.resolve(uuidFolder);
+    }
+
+    private void createFolderIfNeeded(String uuid) {
+        Path path = getDestinationFolder(uuid);
+        if (!Files.exists(path)) {
+            var file = new File(String.valueOf(path));
+            if (!file.mkdirs()) {
+                throw new FileStoreException("Can't create folder: \"" + path + "\"");
+            }
+        }
     }
 }

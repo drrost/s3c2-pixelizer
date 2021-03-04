@@ -31,12 +31,11 @@ public class FileService {
 
     public File add(MultipartFile multipartFile) throws FileDaoException {
 
-        fileStore.store(multipartFile);
-
         var fileName = multipartFile.getOriginalFilename();
         var fileSize = multipartFile.getSize();
         var file = new File(UUID.randomUUID(), fileName, fileSize);
 
+        fileStore.store(multipartFile, String.valueOf(file.getId()));
         fileDao.createFile(file);
 
         return file;
