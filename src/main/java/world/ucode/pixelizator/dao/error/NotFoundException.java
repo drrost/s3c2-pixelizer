@@ -1,4 +1,4 @@
-package world.ucode.pixelizator.file.error;
+package world.ucode.pixelizator.dao.error;
 
 public class NotFoundException extends FileDaoException {
 

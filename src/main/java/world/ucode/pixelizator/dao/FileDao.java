@@ -1,6 +1,6 @@
-package world.ucode.pixelizator.file;
+package world.ucode.pixelizator.dao;
 
-import world.ucode.pixelizator.file.error.FileDaoException;
+import world.ucode.pixelizator.dao.error.FileDaoException;
 import world.ucode.pixelizator.model.File;
 
 import java.util.List;

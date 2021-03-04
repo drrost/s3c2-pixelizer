@@ -2,7 +2,10 @@ package world.ucode.pixelizator.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import world.ucode.pixelizator.file.FileDao;
+import org.springframework.web.multipart.MultipartFile;
+import world.ucode.pixelizator.dao.FileDao;
+import world.ucode.pixelizator.dao.error.FileDaoException;
+import world.ucode.pixelizator.model.File;
 import world.ucode.pixelizator.storage.FileStore;
 import world.ucode.pixelizator.util.DBHelper;
 
@@ -21,5 +24,16 @@ public class FileService {
     public void init() {
         new DBHelper().createDbIfNotExists();
         fileStore.init();
+    }
+
+    public void add(MultipartFile multipartFile) throws FileDaoException {
+
+        fileStore.store(multipartFile);
+
+        var fileName = multipartFile.getOriginalFilename();
+        var fileSize = multipartFile.getSize();
+        var file = new File(fileName, fileSize);
+
+        fileDao.createFile(file);
     }
 }

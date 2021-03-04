@@ -1,8 +1,8 @@
-package world.ucode.pixelizator.file;
+package world.ucode.pixelizator.dao;
 
 import org.springframework.stereotype.Service;
-import world.ucode.pixelizator.file.error.FileDaoException;
-import world.ucode.pixelizator.file.error.NotFoundException;
+import world.ucode.pixelizator.dao.error.FileDaoException;
+import world.ucode.pixelizator.dao.error.NotFoundException;
 import world.ucode.pixelizator.model.File;
 
 import java.sql.Connection;
