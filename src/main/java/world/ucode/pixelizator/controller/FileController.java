@@ -36,9 +36,12 @@ public class FileController {
 
         var files = fileService.all().stream().map(
             (file) -> {
+                var uuid = String.valueOf(file.getId());
+                var uri = MvcUriComponentsBuilder.fromMethodName(
+                    FileController.class, "serveFile", uuid);
+
                 var tlFile = new TLFile(file);
-                tlFile.url = MvcUriComponentsBuilder.fromMethodName(FileController.class,
-                    "serveFile", String.valueOf(file.getId())).build().toUri().toString();
+                tlFile.url = uri.build().toUri().toString();
                 return tlFile;
             }).collect(Collectors.toList());
 
