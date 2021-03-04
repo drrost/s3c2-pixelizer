@@ -28,7 +28,7 @@ public class FileService {
         fileStore.init();
     }
 
-    public void add(MultipartFile multipartFile) throws FileDaoException {
+    public File add(MultipartFile multipartFile) throws FileDaoException {
 
         fileStore.store(multipartFile);
 
@@ -37,5 +37,7 @@ public class FileService {
         var file = new File(UUID.randomUUID(), fileName, fileSize);
 
         fileDao.createFile(file);
+
+        return file;
     }
 }
