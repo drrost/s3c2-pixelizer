@@ -17,6 +17,7 @@ import world.ucode.pixelizator.storage.FileStore;
 import world.ucode.pixelizator.storage.exceptions.FileStoreFileNotFoundException;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -67,6 +68,19 @@ public class FileController {
         redirectAttributes.addFlashAttribute("message",
             "You successfully uploaded " + file.getOriginalFilename() + "!");
 
+        return "redirect:/";
+    }
+
+    @PostMapping("/manyfiles")
+    public String handleManyFilesUpload(
+        @RequestParam("files") List<MultipartFile> files,
+        RedirectAttributes redirectAttributes) throws FileDaoException {
+
+        for (MultipartFile file : files)
+            fileService.add(file);
+
+        redirectAttributes.addFlashAttribute("message",
+            "You successfully uploaded " + files.size() + " files");
         return "redirect:/";
     }
 

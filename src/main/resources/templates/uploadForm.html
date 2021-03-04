@@ -1,12 +1,18 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
 </head>
 <body>
 
 <div th:if="${message}">
     <h2 th:text="${message}"/>
 </div>
+
+<form action="/manyfiles" method="POST" enctype="multipart/form-data">
+    <label for="files">Select files:</label>
+    <input type="file" id="files" name="files" multiple><br><br>
+    <input type="submit">
+</form>
 
 <div>
     <form method="POST" enctype="multipart/form-data" action="/">
