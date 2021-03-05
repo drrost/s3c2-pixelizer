@@ -61,17 +61,6 @@ public class FileController {
     }
 
     @PostMapping("/")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) throws FileDaoException {
-
-        fileService.add(file);
-        redirectAttributes.addFlashAttribute("message",
-            "You successfully uploaded " + file.getOriginalFilename() + "!");
-
-        return "redirect:/";
-    }
-
-    @PostMapping("/manyfiles")
     public String handleManyFilesUpload(
         @RequestParam("files") List<MultipartFile> files,
         RedirectAttributes redirectAttributes) throws FileDaoException {

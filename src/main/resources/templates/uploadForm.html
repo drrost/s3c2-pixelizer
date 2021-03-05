@@ -8,26 +8,11 @@
     <h2 th:text="${message}"/>
 </div>
 
-<form action="/manyfiles" method="POST" enctype="multipart/form-data">
+<form action="/" method="POST" enctype="multipart/form-data">
     <label for="files">Select files:</label>
     <input type="file" id="files" name="files" multiple><br><br>
     <input type="submit">
 </form>
-
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/">
-        <table>
-            <tr>
-                <td>File to upload:</td>
-                <td><input type="file" name="file"/></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Upload"/></td>
-            </tr>
-        </table>
-    </form>
-</div>
 
 <table border="1">
     <tr>

@@ -6,6 +6,12 @@
 ./mvnw spring-boot:run
 ```
 
+## Tasks
+
+* [Google sheet](
+  https://docs.google.com/spreadsheets/d/1HyApqnA-gQ92dX3ysgos4YwwX2rcBUEL95FRFIF0Klc/edit#gid=0
+  )
+
 ## Software design
 
 ### Upload file
@@ -82,7 +88,7 @@ Never understood that need to be done in this section.
 Well, it's pretty straightforward - it's a server that hosts applications.
 Tomcat is not an app server, it's a web container, or in other terms
 
-####     
+####      
 
 ?? To Spring or not to Spring? What is the question.
 
