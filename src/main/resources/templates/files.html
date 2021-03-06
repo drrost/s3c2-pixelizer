@@ -34,6 +34,7 @@
                     <th>UUID</th>
                     <th>Name</th>
                     <th>Size</th>
+                    <th>Time uploaded</th>
                 </tr>
                 <tr th:each="file : ${files}">
                     <td th:utext="${file.id}">UUID</td>
@@ -41,6 +42,7 @@
                         <a th:href="${file.url}" th:text="${file.name}"/>
                     </td>
                     <td th:utext="${file.size}">Size</td>
+                    <td th:utext="${file.time}">Time uploaded</td>
                 </tr>
             </table>
         </div>
