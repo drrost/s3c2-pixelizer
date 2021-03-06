@@ -83,18 +83,13 @@ Never understood that need to be done in this section.
 
 ## Investigate
 
-#### What is an app server?
-
-Well, it's pretty straightforward - it's a server that hosts applications.
-Tomcat is not an app server, it's a web container, or in other terms
-
-####
-
-?? To Spring or not to Spring? What is the question.
-
 * Looks like an
-  appropriate [example](https://spring.io/guides/gs/uploading-files/
+  appropriate Springboot [example](https://spring.io/guides/gs/uploading-files/
   ).
+* For web page
+  layout [Bootstrap 5](https://www.w3schools.com/bootstrap/bootstrap_templates.asp
+  ) framework was used.
+* Thymeleaf fragments [example](https://attacomsian.com/blog/thymeleaf-fragments).
 
 ## How to run an SQL script on MySQL
 

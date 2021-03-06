@@ -18,39 +18,20 @@
 
 <body>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="localhost:8080">Pixelizator</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Projects</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:insert="fragments/header :: header"></div>
 
 <div class="container-fluid text-center">
     <div class="row content">
         <div class="col-sm-8 text-left">
-            <h1>Welcome</h1>
-            <div th:if="${message}">
-                <h2 th:text="${message}"/>
+            <h1>Welcome to Pixelizator</h1>
+            <div>
+                Pixelizator is a web based application that hepls you <a href="https://en.wikipedia.org/wiki/Pixelization">pixelize</a> your images.
+                <p /> Use form below to upload images.
             </div>
-
             <form action="/" method="POST" enctype="multipart/form-data">
                 <label for="files">Select files:</label>
-                <input type="file" id="files" name="files" multiple><br><br>
-                <input type="submit">
+                <input type="file" accept=".jpeg,.jpg" id="files" name="files" multiple><br><br>
+                <input type="submit" disabled>
             </form>
 
             <table border="1">
@@ -67,9 +48,53 @@
                     <td th:utext="${file.size}">Size</td>
                 </tr>
             </table>
+
+            <div th:if="${message}">
+                <h2 th:text="${message}"/>
+            </div>
+
+            <h1 style = "color:green;">
+                GeeksForGeeks
+            </h1>
+
+            <p id = "GFG_UP" style =
+                    "font-size: 15px; font-weight: bold;">
+            </p>
+
+            <input type="file" name="File" id="file" />
+
+            <br><br>
+
+            <button onclick = "GFG_Fun()">
+                click here
+            </button>
+
+            <p id = "error_message" style =
+                    "color:orangered; font-size: 20px; font-weight: bold;">
+            </p>
+
+            <script>
+                var up = document.getElementById('GFG_UP');
+                var errorMessage = document.getElementById('error_message');
+                var file = document.getElementById("files");
+
+                up.innerHTML = "Click on the button to see"
+                    + " if any file is selected";
+
+                function GFG_Fun() {
+                    if(file.files.length == 0 ){
+                        errorMessage.innerHTML = "No files selected";
+                    } else {
+                        errorMessage.innerHTML = "Some file is selected";
+                    }
+                }
+            </script>
+
         </div>
     </div>
 </div>
+
+<div th:insert="fragments/footer :: footer"></div>
 
 </body>
 </html>

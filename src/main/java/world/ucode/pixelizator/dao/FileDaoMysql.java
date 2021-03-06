@@ -68,7 +68,7 @@ public class FileDaoMysql implements FileDao {
         Connection connection;
         try {
             connection = getConnection();
-            var sql = "SELECT BIN_TO_UUID(file_id) as file_id, name, size FROM file";
+            var sql = "SELECT BIN_TO_UUID(file_id) as file_id, name, size FROM file ORDER BY name";
             var statement = connection.createStatement();
             var rs = statement.executeQuery(sql);
 
