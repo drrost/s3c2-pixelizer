@@ -21,11 +21,12 @@ public class FileDaoMysql implements FileDao {
         Connection connection = null;
         try {
             connection = getConnection();
-            var sql = "INSERT INTO file (file_id, name, size) VALUES (UUID_TO_BIN(?), ?, ?)";
+            var sql = "INSERT INTO file (file_id, name, size, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)";
             var preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, String.valueOf(file.getId()));
             preparedStatement.setString(2, file.getName());
             preparedStatement.setLong(3, file.getSize());
+            preparedStatement.setLong(4, file.getTimestamp());
             var rs = preparedStatement.executeUpdate();
 
             if (rs != 1) {
@@ -44,7 +45,7 @@ public class FileDaoMysql implements FileDao {
         Connection connection;
         try {
             connection = getConnection();
-            var sql = "SELECT BIN_TO_UUID(file_id) as file_id, name, size FROM file WHERE file_id = UUID_TO_BIN(?)";
+            var sql = "SELECT BIN_TO_UUID(file_id) as file_id, name, size, created_at FROM file WHERE file_id = UUID_TO_BIN(?)";
             var preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, String.valueOf(id));
             var rs = preparedStatement.executeQuery();
@@ -68,7 +69,7 @@ public class FileDaoMysql implements FileDao {
         Connection connection;
         try {
             connection = getConnection();
-            var sql = "SELECT BIN_TO_UUID(file_id) as file_id, name, size FROM file ORDER BY name";
+            var sql = "SELECT BIN_TO_UUID(file_id) as file_id, name, size, created_at FROM file ORDER BY name";
             var statement = connection.createStatement();
             var rs = statement.executeQuery(sql);
 
@@ -89,11 +90,12 @@ public class FileDaoMysql implements FileDao {
         Connection connection;
         try {
             connection = getConnection();
-            var sql = "UPDATE file SET name = ?, size = ? WHERE file_id = UUID_TO_BIN(?)";
+            var sql = "UPDATE file SET name = ?, size = ?, created_at = ? WHERE file_id = UUID_TO_BIN(?)";
             var preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, file.getName());
             preparedStatement.setLong(2, file.getSize());
             preparedStatement.setString(3, String.valueOf(file.getId()));
+            preparedStatement.setLong(4, file.getTimestamp());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -141,7 +143,8 @@ public class FileDaoMysql implements FileDao {
             var uuid = rs.getString("file_id");
             var name = rs.getString("name");
             var size = rs.getLong("size");
-            file = new File(UUID.fromString(uuid), name, size);
+            var timestamp = rs.getLong("created_at");
+            file = new File(UUID.fromString(uuid), name, size, timestamp);
         } catch (SQLException e) {
             e.printStackTrace();
         }

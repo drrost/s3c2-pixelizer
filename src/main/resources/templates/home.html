@@ -48,11 +48,11 @@
             </p>
 
             <script>
-                var errorMessage = document.getElementById('error_message');
-                var file = document.getElementById("files");
-
                 function handleSubmit() {
-                    if (file.files.length == 0) {
+                    var errorMessage = document.getElementById('error_message');
+                    var files_input = document.getElementById("files");
+
+                    if (files_input.files.length == 0) {
                         errorMessage.innerHTML = "No files selected";
                     } else {
                         var form = document.getElementById("upload_form");

@@ -10,6 +10,7 @@ import world.ucode.pixelizator.services.model.FSFileModel;
 import world.ucode.pixelizator.storage.FileStore;
 import world.ucode.pixelizator.util.DBHelper;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,9 +33,11 @@ public class FileService {
 
     public File add(MultipartFile multipartFile) throws FileDaoException {
 
+        var timestamp = Instant.now().toEpochMilli();
+
         var fileName = multipartFile.getOriginalFilename();
         var fileSize = multipartFile.getSize();
-        var file = new File(UUID.randomUUID(), fileName, fileSize);
+        var file = new File(UUID.randomUUID(), fileName, fileSize, timestamp);
 
         fileStore.store(multipartFile, String.valueOf(file.getId()));
         fileDao.createFile(file);
