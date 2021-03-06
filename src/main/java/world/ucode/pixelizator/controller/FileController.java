@@ -32,7 +32,7 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/files")
     public String listUploadedFiles(Model model) throws IOException, FileDaoException {
 
         var files = fileService.all().stream().map(
@@ -48,7 +48,7 @@ public class FileController {
 
         model.addAttribute("files", files);
 
-        return "home";
+        return "files";
     }
 
     @GetMapping("/files/{filename:.+}")

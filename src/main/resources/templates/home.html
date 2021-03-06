@@ -25,36 +25,25 @@
         <div class="col-sm-8 text-left">
             <h1>Welcome to Pixelizator</h1>
             <div>
-                Pixelizator is a web based application that hepls you <a href="https://en.wikipedia.org/wiki/Pixelization">pixelize</a> your images.
-                <p /> Use form below to upload images.
+                Pixelizator is a web based application that hepls you <a
+                    href="https://en.wikipedia.org/wiki/Pixelization"
+                    target="_blank">pixelize</a> your images.
+                <p/> Use form below to upload images.
             </div>
-            <form action="/" method="POST" enctype="multipart/form-data" id="upload_form">
+            <form action="/" method="POST" enctype="multipart/form-data"
+                  id="upload_form">
                 <label for="files">Select file(s) to pixelize:</label>
-                <input type="file" accept=".jpeg,.jpg" id="files" name="files" multiple>
+                <input type="file" accept=".jpeg,.jpg" id="files" name="files"
+                       multiple>
                 <input type="button" value="Upload" onclick="handleSubmit()">
             </form>
-
-            <table border="1">
-                <tr>
-                    <th>UUID</th>
-                    <th>Name</th>
-                    <th>Size</th>
-                </tr>
-                <tr th:each="file : ${files}">
-                    <td th:utext="${file.id}">UUID</td>
-                    <td th:href="${file.name}" class="shrinked">
-                        <a th:href="${file.url}" th:text="${file.name}"/>
-                    </td>
-                    <td th:utext="${file.size}">Size</td>
-                </tr>
-            </table>
 
             <div th:if="${message}">
                 <h2 th:text="${message}"/>
             </div>
 
 
-            <p id = "error_message" style =
+            <p id="error_message" style=
                     "color:orangered; font-size: 20px; font-weight: bold;">
             </p>
 
@@ -63,7 +52,7 @@
                 var file = document.getElementById("files");
 
                 function handleSubmit() {
-                    if(file.files.length == 0 ){
+                    if (file.files.length == 0) {
                         errorMessage.innerHTML = "No files selected";
                     } else {
                         var form = document.getElementById("upload_form");
