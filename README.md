@@ -88,7 +88,7 @@ Never understood that need to be done in this section.
 Well, it's pretty straightforward - it's a server that hosts applications.
 Tomcat is not an app server, it's a web container, or in other terms
 
-####      
+####
 
 ?? To Spring or not to Spring? What is the question.
 
