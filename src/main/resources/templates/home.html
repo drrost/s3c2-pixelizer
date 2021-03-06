@@ -28,10 +28,10 @@
                 Pixelizator is a web based application that hepls you <a href="https://en.wikipedia.org/wiki/Pixelization">pixelize</a> your images.
                 <p /> Use form below to upload images.
             </div>
-            <form action="/" method="POST" enctype="multipart/form-data">
-                <label for="files">Select files:</label>
-                <input type="file" accept=".jpeg,.jpg" id="files" name="files" multiple><br><br>
-                <input type="submit" disabled>
+            <form action="/" method="POST" enctype="multipart/form-data" id="upload_form">
+                <label for="files">Select file(s) to pixelize:</label>
+                <input type="file" accept=".jpeg,.jpg" id="files" name="files" multiple>
+                <input type="button" value="Upload" onclick="handleSubmit()">
             </form>
 
             <table border="1">
@@ -53,39 +53,21 @@
                 <h2 th:text="${message}"/>
             </div>
 
-            <h1 style = "color:green;">
-                GeeksForGeeks
-            </h1>
-
-            <p id = "GFG_UP" style =
-                    "font-size: 15px; font-weight: bold;">
-            </p>
-
-            <input type="file" name="File" id="file" />
-
-            <br><br>
-
-            <button onclick = "GFG_Fun()">
-                click here
-            </button>
 
             <p id = "error_message" style =
                     "color:orangered; font-size: 20px; font-weight: bold;">
             </p>
 
             <script>
-                var up = document.getElementById('GFG_UP');
                 var errorMessage = document.getElementById('error_message');
                 var file = document.getElementById("files");
 
-                up.innerHTML = "Click on the button to see"
-                    + " if any file is selected";
-
-                function GFG_Fun() {
+                function handleSubmit() {
                     if(file.files.length == 0 ){
                         errorMessage.innerHTML = "No files selected";
                     } else {
-                        errorMessage.innerHTML = "Some file is selected";
+                        var form = document.getElementById("upload_form");
+                        form.submit();
                     }
                 }
             </script>

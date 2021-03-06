@@ -48,7 +48,7 @@ public class FileController {
 
         model.addAttribute("files", files);
 
-        return "uploadForm";
+        return "home";
     }
 
     @GetMapping("/files/{filename:.+}")
