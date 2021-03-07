@@ -19,7 +19,7 @@ public class TLFile {
         id = String.valueOf(file.getId());
         size = file.getSize();
 
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         var date = new Date(file.getTimestamp());
         time = df.format(date);
     }
