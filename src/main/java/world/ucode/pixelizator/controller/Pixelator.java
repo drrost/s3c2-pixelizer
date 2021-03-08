@@ -25,23 +25,16 @@ public class Pixelator {
         this.fileService = fileService;
     }
 
-    public void handleFiles(List<MultipartFile> fileList) throws FileDaoException, IOException {
-        // For each file
-        //   save file
-        //   pixelate file
-        //   save pixelated file
-        //   save link
-
+    public void handleFiles(List<MultipartFile> fileList, int pixelSize) throws FileDaoException, IOException {
         for (MultipartFile file : fileList) {
             var model = FSFileModel.create(file);
             var infile = fileService.add(model);
-            pixelate(file);
+            pixelate(file, pixelSize);
         }
     }
 
-    private void pixelate(MultipartFile file) {
+    private void pixelate(MultipartFile file, int pixelSize) {
         try {
-            final int PIX_SIZE = 10;
             BufferedImage image = ImageIO.read(file.getInputStream());
             // Get the raster data (array of pixels)
             Raster src = image.getData();
@@ -50,8 +43,8 @@ public class Pixelator {
             WritableRaster dest = src.createCompatibleWritableRaster();
 
             // Loop through every PIX_SIZE pixels, in both x and y directions
-            for (int y = 0; y < src.getHeight(); y += PIX_SIZE) {
-                for (int x = 0; x < src.getWidth(); x += PIX_SIZE) {
+            for (int y = 0; y < src.getHeight(); y += pixelSize) {
+                for (int x = 0; x < src.getWidth(); x += pixelSize) {
 
                     // Copy the pixel
                     double[] pixel = new double[3];
@@ -59,8 +52,8 @@ public class Pixelator {
 
                     // "Paste" the pixel onto the surrounding PIX_SIZE by PIX_SIZE neighbors
                     // Also make sure that our loop never goes outside the bounds of the image
-                    for (int yd = y; (yd < y + PIX_SIZE) && (yd < dest.getHeight()); yd++) {
-                        for (int xd = x; (xd < x + PIX_SIZE) && (xd < dest.getWidth()); xd++) {
+                    for (int yd = y; (yd < y + pixelSize) && (yd < dest.getHeight()); yd++) {
+                        for (int xd = x; (xd < x + pixelSize) && (xd < dest.getWidth()); xd++) {
                             dest.setPixel(xd, yd, pixel);
                         }
                     }
