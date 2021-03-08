@@ -1,18 +1,17 @@
 package world.ucode.pixelizator.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import world.ucode.pixelizator.dao.error.FileDaoException;
 import world.ucode.pixelizator.services.FileService;
 import world.ucode.pixelizator.services.model.FSFileModel;
+import world.ucode.pixelizator.util.FilenamesHelper;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -71,7 +70,8 @@ public class Pixelator {
             // Save the raster back to the Image
             image.setData(dest);
 
-            var model = FSFileModel.create(image, file.getOriginalFilename() + "_pixelized");
+            var name = FilenamesHelper.addSuffixToFileName(file.getOriginalFilename(), "_pixelized");
+            var model = FSFileModel.create(image, name);
 
             // Write the new file
             fileService.add(model);

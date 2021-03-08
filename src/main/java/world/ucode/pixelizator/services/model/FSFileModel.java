@@ -45,11 +45,12 @@ public abstract class FSFileModel {
         private long size;
         private String fileName;
 
-        public BufferedImageBased(BufferedImage bufferedImage) throws IOException {
+        public BufferedImageBased(BufferedImage bufferedImage, String fileName) throws IOException {
             var outputStream = new ByteArrayOutputStream();
             ImageIO.write(bufferedImage, "jpeg", outputStream);
             size = outputStream.size();
             inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+            this.fileName = fileName;
         }
 
         @Override
@@ -75,7 +76,7 @@ public abstract class FSFileModel {
         return new MultipartFileBased(multipartFile);
     }
 
-    public static FSFileModel create(BufferedImage bufferedImage, String name) throws IOException {
-        return new BufferedImageBased(bufferedImage);
+    public static FSFileModel create(BufferedImage bufferedImage, String fileName) throws IOException {
+        return new BufferedImageBased(bufferedImage, fileName);
     }
 }
