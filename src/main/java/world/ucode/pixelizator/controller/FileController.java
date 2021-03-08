@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import world.ucode.pixelizator.controller.model.TLFile;
 import world.ucode.pixelizator.dao.error.FileDaoException;
@@ -39,13 +38,7 @@ public class FileController {
 
         var files = fileService.all().stream().map(
             (file) -> {
-                var uuid = String.valueOf(file.getId());
-                var uri = MvcUriComponentsBuilder.fromMethodName(
-                    FileController.class, "serveFile", uuid);
-
-                var tlFile = new TLFile(file);
-                tlFile.url = uri.build().toUri().toString();
-                return tlFile;
+                return new TLFile(file);
             }).collect(Collectors.toList());
 
         model.addAttribute("files", files);
@@ -70,13 +63,7 @@ public class FileController {
 
         var pixelizedFiles = pixelator.handleFiles(files, pixelSize);
         var pixelizedTlFiles = pixelizedFiles.stream().map(file -> {
-            var uuid = String.valueOf(file.getId());
-            var uri = MvcUriComponentsBuilder.fromMethodName(
-                FileController.class, "serveFile", uuid);
-
-            var tlFile = new TLFile(file);
-            tlFile.url = uri.build().toUri().toString();;
-            return tlFile;
+            return new TLFile(file);
         }).collect(Collectors.toList());
 
         redirectAttributes.addFlashAttribute("message",
