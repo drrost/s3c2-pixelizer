@@ -56,6 +56,14 @@
                     "color:orangered; font-size: 20px; font-weight: bold;">
             </p>
 
+            <div th:if="${pixelized_files}">
+                <table border="1">
+                    <tr th:each="file : ${pixelized_files}">
+                        <td><img th:src="${file.url}" /></td>
+                    </tr>
+                </table>
+            </div>
+
             <script>
                 function handleSubmit() {
                     var errorMessage = document.getElementById('error_message');

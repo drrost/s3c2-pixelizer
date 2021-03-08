@@ -68,10 +68,22 @@ public class FileController {
         @RequestParam("pixel_size_input") int pixelSize,
         RedirectAttributes redirectAttributes) throws FileDaoException, IOException {
 
-        pixelator.handleFiles(files, pixelSize);
+        var pixelizedFiles = pixelator.handleFiles(files, pixelSize);
+        var pixelizedTlFiles = pixelizedFiles.stream().map(file -> {
+            var uuid = String.valueOf(file.getId());
+            var uri = MvcUriComponentsBuilder.fromMethodName(
+                FileController.class, "serveFile", uuid);
+
+            var tlFile = new TLFile(file);
+            tlFile.url = uri.build().toUri().toString();;
+            return tlFile;
+        }).collect(Collectors.toList());
 
         redirectAttributes.addFlashAttribute("message",
             "You successfully uploaded " + files.size() + " files");
+
+        redirectAttributes.addFlashAttribute("pixelized_files", pixelizedTlFiles);
+
         return "redirect:/";
     }
 

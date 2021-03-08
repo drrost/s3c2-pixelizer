@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import world.ucode.pixelizator.dao.error.FileDaoException;
+import world.ucode.pixelizator.model.File;
 import world.ucode.pixelizator.services.FileService;
 import world.ucode.pixelizator.services.model.FSFileModel;
 import world.ucode.pixelizator.util.FilenamesHelper;
@@ -13,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -25,51 +27,42 @@ public class Pixelator {
         this.fileService = fileService;
     }
 
-    public void handleFiles(List<MultipartFile> fileList, int pixelSize) throws FileDaoException, IOException {
+    public List<File> handleFiles(List<MultipartFile> fileList, int pixelSize) throws FileDaoException, IOException {
+        var pixelizedFiles = new ArrayList<File>();
         for (MultipartFile file : fileList) {
             var model = FSFileModel.create(file);
-            var infile = fileService.add(model);
-            pixelate(file, pixelSize);
+            fileService.add(model);
+            var pixelizedFile = pixelate(file, pixelSize);
+            pixelizedFiles.add(pixelizedFile);
         }
+        return pixelizedFiles;
     }
 
-    private void pixelate(MultipartFile file, int pixelSize) {
-        try {
-            BufferedImage image = ImageIO.read(file.getInputStream());
-            // Get the raster data (array of pixels)
-            Raster src = image.getData();
+    private File pixelate(MultipartFile file, int pixelSize) throws IOException, FileDaoException {
+        BufferedImage image = ImageIO.read(file.getInputStream());
+        Raster src = image.getData();
 
-            // Create an identically-sized output raster
-            WritableRaster dest = src.createCompatibleWritableRaster();
+        WritableRaster dest = src.createCompatibleWritableRaster();
 
-            // Loop through every PIX_SIZE pixels, in both x and y directions
-            for (int y = 0; y < src.getHeight(); y += pixelSize) {
-                for (int x = 0; x < src.getWidth(); x += pixelSize) {
+        for (int y = 0; y < src.getHeight(); y += pixelSize) {
+            for (int x = 0; x < src.getWidth(); x += pixelSize) {
 
-                    // Copy the pixel
-                    double[] pixel = new double[3];
-                    pixel = src.getPixel(x, y, pixel);
+                double[] pixel = new double[3];
+                pixel = src.getPixel(x, y, pixel);
 
-                    // "Paste" the pixel onto the surrounding PIX_SIZE by PIX_SIZE neighbors
-                    // Also make sure that our loop never goes outside the bounds of the image
-                    for (int yd = y; (yd < y + pixelSize) && (yd < dest.getHeight()); yd++) {
-                        for (int xd = x; (xd < x + pixelSize) && (xd < dest.getWidth()); xd++) {
-                            dest.setPixel(xd, yd, pixel);
-                        }
+                for (int yd = y; (yd < y + pixelSize) && (yd < dest.getHeight()); yd++) {
+                    for (int xd = x; (xd < x + pixelSize) && (xd < dest.getWidth()); xd++) {
+                        dest.setPixel(xd, yd, pixel);
                     }
                 }
             }
-
-            // Save the raster back to the Image
-            image.setData(dest);
-
-            var name = FilenamesHelper.addSuffixToFileName(file.getOriginalFilename(), "_pixelized");
-            var model = FSFileModel.create(image, name);
-
-            // Write the new file
-            fileService.add(model);
-        } catch (IOException | FileDaoException e) {
-            e.printStackTrace();
         }
+
+        image.setData(dest);
+
+        var name = FilenamesHelper.addSuffixToFileName(file.getOriginalFilename(), "_pixelized");
+        var model = FSFileModel.create(image, name);
+
+        return fileService.add(model);
     }
 }
