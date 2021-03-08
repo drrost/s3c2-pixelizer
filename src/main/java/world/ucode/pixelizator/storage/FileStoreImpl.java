@@ -41,9 +41,9 @@ public class FileStoreImpl implements FileStore {
     }
 
     @Override
-    public void store(MultipartFile file, String uuid) {
+    public void store(InputStream inputStream, String uuid) {
         try {
-            if (file.isEmpty()) {
+            if (inputStream.available() == 0) {
                 throw new FileStoreException("Failed to store empty file.");
             }
             createFolderIfNeeded(uuid);
@@ -55,10 +55,8 @@ public class FileStoreImpl implements FileStore {
                 throw new FileStoreException(
                     "Cannot store file outside current directory.");
             }
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile,
-                    StandardCopyOption.REPLACE_EXISTING);
-            }
+            Files.copy(inputStream, destinationFile,
+                StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new FileStoreException("Failed to store file.", e);
         }
@@ -90,7 +88,6 @@ public class FileStoreImpl implements FileStore {
             } else {
                 throw new FileStoreFileNotFoundException(
                     "Could not read file: " + uuid);
-
             }
         } catch (MalformedURLException e) {
             throw new FileStoreFileNotFoundException("Could not read file: " + uuid, e);

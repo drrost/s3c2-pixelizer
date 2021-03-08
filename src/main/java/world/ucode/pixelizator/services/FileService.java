@@ -7,9 +7,11 @@ import world.ucode.pixelizator.dao.FileDao;
 import world.ucode.pixelizator.dao.error.FileDaoException;
 import world.ucode.pixelizator.model.File;
 import world.ucode.pixelizator.services.model.FSFileModel;
+import world.ucode.pixelizator.services.model.ResourceFileModel;
 import world.ucode.pixelizator.storage.FileStore;
 import world.ucode.pixelizator.util.DBHelper;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -31,15 +33,12 @@ public class FileService {
         fileStore.init();
     }
 
-    public File add(MultipartFile multipartFile) throws FileDaoException {
-
+    public File add(FSFileModel model) throws FileDaoException, IOException {
         var timestamp = Instant.now().toEpochMilli();
 
-        var fileName = multipartFile.getOriginalFilename();
-        var fileSize = multipartFile.getSize();
-        var file = new File(UUID.randomUUID(), fileName, fileSize, timestamp);
+        var file = new File(UUID.randomUUID(), model.getName(), model.getSize(), timestamp);
 
-        fileStore.store(multipartFile, String.valueOf(file.getId()));
+        fileStore.store(model.getInputStream(), String.valueOf(file.getId()));
         fileDao.createFile(file);
 
         return file;
@@ -49,11 +48,11 @@ public class FileService {
         return fileDao.findAll();
     }
 
-    public FSFileModel load(String uuid) throws FileDaoException {
+    public ResourceFileModel load(String uuid) throws FileDaoException {
         var file = fileDao.fileById(UUID.fromString(uuid));
         var resource = fileStore.loadAsResource(uuid);
 
-        var fsFile = new FSFileModel(resource, file.getName());
+        var fsFile = new ResourceFileModel(resource, file.getName());
 
         return fsFile;
     }

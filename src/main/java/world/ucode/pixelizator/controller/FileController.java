@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import world.ucode.pixelizator.controller.model.TLFile;
 import world.ucode.pixelizator.dao.error.FileDaoException;
 import world.ucode.pixelizator.services.FileService;
+import world.ucode.pixelizator.services.model.FSFileModel;
 import world.ucode.pixelizator.storage.FileStore;
 import world.ucode.pixelizator.storage.exceptions.FileStoreFileNotFoundException;
 
@@ -25,11 +26,13 @@ public class FileController {
 
     private final FileStore fileStore;
     private final FileService fileService;
+    private final Pixelator pixelator;
 
     @Autowired
-    public FileController(FileStore fileStore, FileService fileService) {
+    public FileController(FileStore fileStore, FileService fileService, Pixelator pixelator) {
         this.fileStore = fileStore;
         this.fileService = fileService;
+        this.pixelator = pixelator;
     }
 
     @GetMapping("/files")
@@ -63,10 +66,9 @@ public class FileController {
     @PostMapping("/")
     public String handleManyFilesUpload(
         @RequestParam("files") List<MultipartFile> files,
-        RedirectAttributes redirectAttributes) throws FileDaoException {
+        RedirectAttributes redirectAttributes) throws FileDaoException, IOException {
 
-        for (MultipartFile file : files)
-            fileService.add(file);
+        pixelator.handleFiles(files);
 
         redirectAttributes.addFlashAttribute("message",
             "You successfully uploaded " + files.size() + " files");
