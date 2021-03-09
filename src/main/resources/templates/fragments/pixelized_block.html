@@ -37,6 +37,22 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
+
+        <br />
+        <form method="GET" id="current_image_form">
+            <input type="button" value="Download current image"
+                   onclick="handleCurrentFile()">
+        </form>
+
+        <script>
+            function handleCurrentFile() {
+                var form = document.getElementById("current_image_form");
+                var active = document.getElementsByClassName("item active");
+                form.action = active[0].children[0].src;
+                form.submit();
+            }
+        </script>
+
     </div>
 </header>
 </body>

@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 <footer th:fragment="footer">
-    <br />
-    <p>&copy; 2021 rdruzhchenko.com</p>
+    <br/>
+    <p style="margin-left: 20px;"
+       th:text="'&copy; ' + ${#dates.year(#dates.createNow())} + ' rdruzhchenko.com'"></p>
 </footer>
 </body>
 </html>
