@@ -40,11 +40,7 @@
             </div>
 
             <div th:insert="fragments/upload_files :: upload_files"></div>
-
-            <div id="upload_url" class="tabcontent tabs">
-                <h3>Paris</h3>
-                <p>Paris is the capital of France.</p>
-            </div>
+            <div th:insert="fragments/upload_url :: upload_url"></div>
 
             <script>
                 var clickEvent = new MouseEvent("click", {
