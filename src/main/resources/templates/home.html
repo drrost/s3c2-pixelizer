@@ -2,6 +2,9 @@
 <head>
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
 
+    <link th:href="@{/styles/cssandjs/home_tabs/home_tabs.css}" rel="stylesheet"/>
+    <script th:src="@{/styles/cssandjs/home_tabs/home_tabs.js}"></script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet"
@@ -30,6 +33,23 @@
                     target="_blank">pixelize</a> your images.
                 <p/> Use form below to upload images.
             </div>
+
+            <div class="tab tabs">
+                <button class="tablinks" onclick="openCity(event, 'upload_files')">Upload files</button>
+                <button class="tablinks" onclick="openCity(event, 'upload_url')">Upload from URL</button>
+            </div>
+
+            <!-- Tab content -->
+            <div id="upload_files" class="tabcontent tabs">
+                <h3>London</h3>
+                <p>London is the capital city of England.</p>
+            </div>
+
+            <div id="upload_url" class="tabcontent tabs">
+                <h3>Paris</h3>
+                <p>Paris is the capital of France.</p>
+            </div>
+
             <form action="/" method="POST" enctype="multipart/form-data"
                   id="upload_form">
                 <label for="files">Select file(s) to pixelize:</label>
