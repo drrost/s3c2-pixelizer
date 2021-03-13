@@ -35,14 +35,61 @@
             </div>
 
             <div class="tab tabs">
-                <button class="tablinks" onclick="openCity(event, 'upload_files')">Upload files</button>
-                <button class="tablinks" onclick="openCity(event, 'upload_url')">Upload from URL</button>
+                <button class="tablinks" onclick="openTab(event, 'upload_files')" id="upload_files_button">Upload files</button>
+                <button class="tablinks" onclick="openTab(event, 'upload_url')">Upload from URL</button>
             </div>
 
             <!-- Tab content -->
             <div id="upload_files" class="tabcontent tabs">
-                <h3>London</h3>
-                <p>London is the capital city of England.</p>
+                <form action="/" method="POST" enctype="multipart/form-data"
+                      id="upload_form">
+                    <label for="files">Select file(s) to pixelize:</label>
+                    <br/><br/>
+                    <input type="file" accept=".jpeg,.jpg" id="files" name="files"
+                           multiple>
+                    <br/><br/>
+                    <label for="pixel_size_input">Select pixel size:</label>
+                    <input style="width: 200px;"
+                           type="range" min="3" max="20" value="10" class="slider"
+                           id="pixel_size_input" name="pixel_size_input">
+                    <p>Pixel size: <span id="pixel_size_value"></span></p>
+                    <br/>
+                    <input type="button" value="Upload" onclick="handleSubmit()">
+                </form>
+
+                <div th:if="${message}">
+                    <h2 th:text="${message}"/>
+                </div>
+
+                <p id="error_message" style=
+                        "color:orangered; font-size: 20px; font-weight: bold;">
+                </p>
+
+                <div th:insert="fragments/pixelized_block :: pixelized_block"></div>
+
+                <script>
+                    function handleSubmit() {
+                        var errorMessage = document.getElementById('error_message');
+                        var files_input = document.getElementById("files");
+
+                        if (files_input.files.length == 0) {
+                            errorMessage.innerHTML = "No files selected";
+                        } else {
+                            var form = document.getElementById("upload_form");
+                            form.submit();
+                        }
+                    }
+                </script>
+
+                <script>
+                    var slider = document.getElementById("pixel_size_input");
+                    var output = document.getElementById("pixel_size_value");
+                    output.innerHTML = slider.value;
+
+                    slider.oninput = function () {
+                        output.innerHTML = this.value;
+                    }
+                </script>
             </div>
 
             <div id="upload_url" class="tabcontent tabs">
@@ -50,56 +97,15 @@
                 <p>Paris is the capital of France.</p>
             </div>
 
-            <form action="/" method="POST" enctype="multipart/form-data"
-                  id="upload_form">
-                <label for="files">Select file(s) to pixelize:</label>
-                <br/><br/>
-                <input type="file" accept=".jpeg,.jpg" id="files" name="files"
-                       multiple>
-                <br/><br/>
-                <label for="pixel_size_input">Select pixel size:</label>
-                <input style="width: 200px;"
-                       type="range" min="3" max="20" value="10" class="slider"
-                       id="pixel_size_input" name="pixel_size_input">
-                <p>Pixel size: <span id="pixel_size_value"></span></p>
-                <br/>
-                <input type="button" value="Upload" onclick="handleSubmit()">
-            </form>
-
-            <div th:if="${message}">
-                <h2 th:text="${message}"/>
-            </div>
-
-            <p id="error_message" style=
-                    "color:orangered; font-size: 20px; font-weight: bold;">
-            </p>
-
-            <div th:insert="fragments/pixelized_block :: pixelized_block"></div>
-
             <script>
-                function handleSubmit() {
-                    var errorMessage = document.getElementById('error_message');
-                    var files_input = document.getElementById("files");
-
-                    if (files_input.files.length == 0) {
-                        errorMessage.innerHTML = "No files selected";
-                    } else {
-                        var form = document.getElementById("upload_form");
-                        form.submit();
-                    }
-                }
+                var clickEvent = new MouseEvent("click", {
+                    "view": window,
+                    "bubbles": true,
+                    "cancelable": false
+                });
+                var button = document.getElementById("upload_files_button");
+                button.dispatchEvent(clickEvent);
             </script>
-
-            <script>
-                var slider = document.getElementById("pixel_size_input");
-                var output = document.getElementById("pixel_size_value");
-                output.innerHTML = slider.value;
-
-                slider.oninput = function () {
-                    output.innerHTML = this.value;
-                }
-            </script>
-
         </div>
     </div>
 </div>
