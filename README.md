@@ -6,11 +6,41 @@
 ./mvnw spring-boot:run
 ```
 
-## Tasks
+## How to use
 
-* [Google sheet](
-  https://docs.google.com/spreadsheets/d/1HyApqnA-gQ92dX3ysgos4YwwX2rcBUEL95FRFIF0Klc/edit#gid=0
-  )
+### Basic scenario
+
+* Build and run the project.
+* Open your browser at `localhost:8080`.
+* Tap `Borwse` button and select several `.jpg` files.
+* Select `Pixel size`.
+* Tap `Upload` button.
+* Press `Download` to download an image.
+
+### Pixelate from URL
+
+* Tap `Upload from URL` tab.
+* Paste a link to a `jpg` image on the Web.
+* Select `Pixel size`.
+* Tap `Upload` button.
+* Press `Download` to download an image.
+
+## Features
+
+### Basic
+
+* Upload a local file via browse.
+* Support .jpg format.
+* Display the pixelated image on a web page after the response.
+* Save the pixelated image as a local file.
+* Support pixelation settings with at least pixel size editing.
+* Sisplay a simple analytics dashboard with the following app stat.
+
+### Creative
+
+* Ability to upload more than one image at a time.
+* Pixelate image from a URL.
+* Exciting visuals of the analytics dashboard (charts, infographics, etc).
 
 ## Software design
 
@@ -21,6 +51,15 @@
 ### File DAO
 
 ![](docs/file_dao.png)
+
+## Screenshots
+
+![](./docs/pixelate_from_url.png)
+![](./docs/all_files.png)
+
+---
+
+Internal documentation
 
 ## Setup
 
@@ -83,13 +122,14 @@ Never understood that need to be done in this section.
 
 ## Investigate
 
-* Looks like an
-  appropriate Springboot [example](https://spring.io/guides/gs/uploading-files/
+* Looks like an appropriate
+  Springboot [example](https://spring.io/guides/gs/uploading-files/
   ).
 * For web page
   layout [Bootstrap 5](https://www.w3schools.com/bootstrap/bootstrap_templates.asp
   ) framework was used.
-* Thymeleaf fragments [example](https://attacomsian.com/blog/thymeleaf-fragments).
+* Thymeleaf
+  fragments [example](https://attacomsian.com/blog/thymeleaf-fragments).
 
 ## How to run an SQL script on MySQL
 
@@ -131,3 +171,10 @@ brew install spring-boot
 ### Startup logic run
 
 * https://www.baeldung.com/running-setup-logic-on-startup-in-spring
+
+## Tasks
+
+* [Google sheet](
+  https://docs.google.com/spreadsheets/d/1HyApqnA-gQ92dX3ysgos4YwwX2rcBUEL95FRFIF0Klc/edit#gid=0
+  )
+
