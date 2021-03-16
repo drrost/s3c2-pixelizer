@@ -6,6 +6,9 @@
 ./mvnw spring-boot:run
 ```
 
+The workstation MUST have installed and run MySQL server. It must have a user
+with login `root` and empty password.
+
 ## How to use
 
 ### Basic scenario
