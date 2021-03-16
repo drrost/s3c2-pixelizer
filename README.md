@@ -25,6 +25,9 @@
 * Tap `Upload` button.
 * Press `Download` to download an image.
 
+Pay your attention that some sites prevent images downloading if a client not a
+web browser. Pixelator does not handle this case.
+
 ## Features
 
 ### Basic
