@@ -11,26 +11,27 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import world.ucode.pixelizator.controller.model.TLFile;
 import world.ucode.pixelizator.dao.error.FileDaoException;
+import world.ucode.pixelizator.services.DownloadFilesService;
 import world.ucode.pixelizator.services.FileService;
-import world.ucode.pixelizator.storage.FileStore;
 import world.ucode.pixelizator.storage.exceptions.FileStoreFileNotFoundException;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 public class FileController {
 
-    private final FileStore fileStore;
     private final FileService fileService;
     private final Pixelator pixelator;
+    private final DownloadFilesService downloadFilesService;
 
     @Autowired
-    public FileController(FileStore fileStore, FileService fileService, Pixelator pixelator) {
-        this.fileStore = fileStore;
+    public FileController(FileService fileService, Pixelator pixelator, DownloadFilesService downloadFilesService) {
         this.fileService = fileService;
         this.pixelator = pixelator;
+        this.downloadFilesService= downloadFilesService;
     }
 
     @GetMapping("/files")
@@ -60,6 +61,27 @@ public class FileController {
         @RequestParam("files") List<MultipartFile> files,
         @RequestParam("pixel_size_input") int pixelSize,
         RedirectAttributes redirectAttributes) throws FileDaoException, IOException {
+
+        return pixelizeFiles(pixelSize, redirectAttributes, files);
+    }
+
+    @PostMapping("/files/byurl")
+    public String handleFileByUrlUpload(
+        @RequestParam("url") String url,
+        @RequestParam("pixel_size_input") int pixelSize,
+        RedirectAttributes redirectAttributes) throws IOException, FileDaoException {
+
+        var multipartFile = downloadFilesService.download(url);
+        var files = Arrays.asList(multipartFile);
+        downloadFilesService.deleteFile(multipartFile.getName());
+
+        return pixelizeFiles(pixelSize, redirectAttributes, files);
+    }
+
+    private String pixelizeFiles(
+        @RequestParam("pixel_size_input") int pixelSize,
+        RedirectAttributes redirectAttributes,
+        List<MultipartFile> files) throws FileDaoException, IOException {
 
         var pixelizedFiles = pixelator.handleFiles(files, pixelSize);
         var pixelizedTlFiles = pixelizedFiles.stream().map(file -> {

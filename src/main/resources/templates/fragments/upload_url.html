@@ -3,8 +3,55 @@
 <body>
 <div th:fragment="upload_url">
     <div id="upload_url" class="tabcontent tabs">
-        <h3>Paris</h3>
-        <p>Paris is the capital of France.</p>
+        <form action="/files/byurl" method="POST" enctype="multipart/form-data"
+              id="upload_form_by_url">
+            <label for="files">Enter a link to pixelize:</label>
+            <br/><br/>
+            <input type="text" accept=".jpeg,.jpg" id="file_by_url" name="url"
+                   multiple>
+            <br/><br/>
+            <label for="pixel_size_input">Select pixel size:</label>
+            <input style="width: 200px;"
+                   type="range" min="3" max="20" value="10" class="slider"
+                   id="pixel_size_input" name="pixel_size_input">
+            <p>Pixel size: <span id="pixel_size_value"></span></p>
+            <br/>
+            <input type="button" value="Upload" onclick="handleSubmit_by_url()">
+        </form>
+
+        <div th:if="${message}">
+            <h2 th:text="${message}"/>
+        </div>
+
+        <p id="error_message_url" style=
+                "color:orangered; font-size: 20px; font-weight: bold;">
+        </p>
+
+        <div th:insert="fragments/pixelized_block :: pixelized_block"></div>
+
+        <script>
+            function handleSubmit_by_url() {
+                var errorMessage = document.getElementById('error_message_url');
+                var file_input = document.getElementById("file_by_url");
+
+                if (file_input.length == 0) {
+                    errorMessage.innerHTML = "No URL selected";
+                } else {
+                    var form = document.getElementById("upload_form_by_url");
+                    form.submit();
+                }
+            }
+        </script>
+
+        <script>
+            var slider = document.getElementById("pixel_size_input");
+            var output = document.getElementById("pixel_size_value");
+            output.innerHTML = slider.value;
+
+            slider.oninput = function () {
+                output.innerHTML = this.value;
+            }
+        </script>
     </div>
 </div>
 </body>
