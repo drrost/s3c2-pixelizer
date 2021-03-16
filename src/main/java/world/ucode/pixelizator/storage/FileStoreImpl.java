@@ -5,7 +5,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.web.multipart.MultipartFile;
 import world.ucode.pixelizator.storage.exceptions.FileStoreException;
 import world.ucode.pixelizator.storage.exceptions.FileStoreFileNotFoundException;
 
